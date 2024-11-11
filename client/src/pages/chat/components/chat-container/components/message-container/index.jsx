@@ -197,7 +197,7 @@ const MessageContainer = () => {
           className={`${message.sender._id === userInfo.id
             ? "bg-[#8417ff]/5 text-[#8417ff]/90 border-[#8417ff]/50"
             : "bg-[#2a2b33]/5 text-white/80 border-[#ffffff]/20"
-            } border inline-block p-4 rounded my-1 max-w-[50%] break-all`}
+            } border inline-block p-4 rounded my-1 max-w-[50%] break-all ml-11`}
         >
           {checkIfImage(message.fileUrl) ? (
             <div className="cursor-pointer"
@@ -259,7 +259,7 @@ const MessageContainer = () => {
   }
 
   return (
-    <div className="flex-1 overflow-y-auto scrollbar-hidden p-4 px-8 md:w-[65vw] lg:w-[70vw] xl:w-[80vw] w-full">
+    <div className="flex-1 overflow-y-auto no-scrollbar p-4 px-8 md:w-[65vw] lg:w-[70vw] xl:w-[80vw] w-full">
       {renderMessages()}
       <div ref={scrollRef} />
       {

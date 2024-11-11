@@ -146,7 +146,9 @@ const Profile = () => {
               hovered && (
                 <div className="absolute inset-0 flex items-center justify-center
                 bg-black/50 ring-fuchsia-50 cursor-pointer rounded-full"
-                  onClick={image ? handleDeleteImage : handleFileInputClick}
+                  onClick={image ? handleDeleteImage : handleFileInputClick} style={{
+                    top: window.innerWidth <= 640 ? '54px' : '0px', // Apply top: 54px for small screens
+                  }}
                 >
                   {image ? (
                     <FaTrash className="text-white text-3xl cursor-pointer" />
