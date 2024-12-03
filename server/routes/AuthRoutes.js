@@ -13,7 +13,9 @@ import multer from "multer";
 
 
 const authRoutes = Router();
-const upload = multer({ dest: "uploads/profiles/" });
+const storage = multer.memoryStorage(); // Store file in memory
+const upload = multer({ storage });     // Use memory storage
+
 
 authRoutes.post("/signup", signup);
 authRoutes.post("/login", login);

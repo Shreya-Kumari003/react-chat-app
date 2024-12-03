@@ -8,9 +8,13 @@ import contactsRoutes from "./routes/ContactRoutes.js"
 import setupSocket from "./socket.js"
 import messagesRoutes from "./routes/MessagesRoutes.js"
 import channelRoutes from "./routes/ChannelRoutes.js"
+import path from "path";
 
 
 dotenv.config();
+
+const __dirname = path.resolve();
+
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -22,8 +26,7 @@ app.use(cors({
     credentials: true,
 }));
 
-app.use("/uploads/profiles", express.static("uploads/profiles"));
-app.use("/uploads/files", express.static("uploads/files"));
+app.use(express.static(path.join(__dirname, '/client/dist')));
 
 app.use(cookieParser());
 app.use(express.json());

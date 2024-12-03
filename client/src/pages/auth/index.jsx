@@ -46,40 +46,74 @@ const Auth = () => {
     return true;
   };
 
+// ------------------
   const handleLogin = async () => {
     if (validateLogin()) {
-      const response = await apiClient.post(
-        LOGIN_ROUTE,
-        { email, password },
-        { withCredentials: true }
-      );
-      if (response.data.user.id) {
-        setUserInfo(response.data.user);
-        if (response.data.user.profileSetup) {
-          navigate("/chat");
+      try {
+        const response = await apiClient.post(
+          LOGIN_ROUTE,
+          { email, password },
+          { withCredentials: true }
+        );
+  
+        if (response.data.user?.id) {
+          setUserInfo(response.data.user);
+  
+          if (response.data.user.profileSetup) {
+            navigate("/chat");
+          } else {
+            navigate("/profile");
+          }
         } else {
-          navigate("/profile");
+          toast.error("Invalid Credentials!");
         }
+      } catch (error) {
+        if (error.response) {
+          // Handle different error statuses
+          if (error.response.status === 404) {
+            toast.error("User with this email was not found.");
+          } else if (error.response.status === 400) {
+            toast.error("Invalid Credentials!");
+          } else {
+            toast.error("An error occurred. Please try again.");
+          }
+        } else {
+          toast.error("Network Error. Please try again later.");
+        }
+        console.log({ error });
       }
-      console.log({ response });
     }
   };
-
   const handleSignup = async () => {
     if (validateSignup()) {
-      const response = await apiClient.post(
-        SIGNUP_ROUTE,
-        { email, password },
-        { withCredentials: true }
-      );
-      if (response.status === 201) {
-        setUserInfo(response.data.user);
-        navigate("/profile");
+      try {
+        const response = await apiClient.post(
+          SIGNUP_ROUTE,
+          { email, password },
+          { withCredentials: true }
+        );
+  
+        if (response.status === 201) {
+          setUserInfo(response.data.user);
+          navigate("/profile");
+        }
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status === 409) {
+            toast.error("User with this email already exists.");
+          } else if (error.response.status === 400) {
+            toast.error("Email and Password are required.");
+          } else {
+            toast.error("An error occurred. Please try again.");
+          }
+        } else {
+          toast.error("Network Error. Please try again later.");
+        }
+        console.log({ error });
       }
-      console.log({ response });
-
     }
-  }
+  };
+  
 
   return (
     <div className="h-[100vh] w-[100vw] bg-[url(/src/assets/back.jpeg)] bg-cover bg-center  flex items-center justify-center">
